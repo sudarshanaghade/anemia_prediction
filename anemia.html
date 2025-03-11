@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anemia Prediction Project</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            border-radius: 5px;
+        }
+        section {
+            background-color: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #4CAF50;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+            position: fixed;
+            bottom: 0;
+            width: 96%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Anemia Prediction Project</h1>
+        <p>Using Machine Learning to Predict Anemia Based on Blood Parameters</p>
+    </header>
+
+    <section>
+        <h2>Project Overview</h2>
+        <p>This project aims to predict anemia using a dataset containing blood parameters such as Hemoglobin, MCH, MCHC, and MCV, along with gender information. The analysis involves data exploration, correlation analysis, and visualization of decision trees from a machine learning model.</p>
+    </section>
+
+    <section>
+        <h2>Dataset Overview</h2>
+        <p>The dataset "anemia.csv" contains 1421 entries with 6 columns:</p>
+        <ul>
+            <li><strong>Gender</strong>: 0 (Female) or 1 (Male)</li>
+            <li><strong>Hemoglobin</strong>: Hemoglobin level (g/dL)</li>
+            <li><strong>MCH</strong>: Mean Corpuscular Hemoglobin (pg)</li>
+            <li><strong>MCHC</strong>: Mean Corpuscular Hemoglobin Concentration (g/dL)</li>
+            <li><strong>MCV</strong>: Mean Corpuscular Volume (fL)</li>
+            <li><strong>Result</strong>: 0 (Not Anemic) or 1 (Anemic)</li>
+        </ul>
+        <p>First 5 rows of the dataset:</p>
+        <table>
+            <tr>
+                <th>Gender</th>
+                <th>Hemoglobin</th>
+                <th>MCH</th>
+                <th>MCHC</th>
+                <th>MCV</th>
+                <th>Result</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>14.9</td>
+                <td>22.7</td>
+                <td>29.1</td>
+                <td>83.7</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>0</td>
+                <td>15.9</td>
+                <td>25.4</td>
+                <td>28.3</td>
+                <td>72.0</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>0</td>
+                <td>9.0</td>
+                <td>21.5</td>
+                <td>29.6</td>
+                <td>71.2</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>0</td>
+                <td>14.9</td>
+                <td>16.0</td>
+                <td>31.4</td>
+                <td>87.5</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>14.7</td>
+                <td>22.0</td>
+                <td>28.2</td>
+                <td>99.5</td>
+                <td>0</td>
+            </tr>
+        </table>
+    </section>
+
+    <section>
+        <h2>Correlation Analysis</h2>
+        <p>The correlation matrix shows the relationship between variables:</p>
+        <table>
+            <tr>
+                <th></th>
+                <th>Gender</th>
+                <th>Hemoglobin</th>
+                <th>MCH</th>
+                <th>MCHC</th>
+                <th>MCV</th>
+                <th>Result</th>
+            </tr>
+            <tr>
+                <td><strong>Gender</strong></td>
+                <td>1.000000</td>
+                <td>0.010972</td>
+                <td>0.001042</td>
+                <td>0.014574</td>
+                <td>-0.040447</td>
+                <td>0.253169</td>
+            </tr>
+            <tr>
+                <td><strong>Hemoglobin</strong></td>
+                <td>0.010972</td>
+                <td>1.000000</td>
+                <td>0.014081</td>
+                <td>-0.042597</td>
+                <td>-0.025885</td>
+                <td>-0.796261</td>
+            </tr>
+            <tr>
+                <td><strong>MCH</strong></td>
+                <td>0.001042</td>
+                <td>0.014081</td>
+                <td>1.000000</td>
+                <td>0.018795</td>
+                <td>-0.015948</td>
+                <td>-0.028678</td>
+            </tr>
+            <tr>
+                <td><strong>MCHC</strong></td>
+                <td>0.014574</td>
+                <td>-0.042597</td>
+                <td>0.018795</td>
+                <td>1.000000</td>
+                <td>0.068450</td>
+                <td>0.048067</td>
+            </tr>
+            <tr>
+                <td><strong>MCV</strong></td>
+                <td>-0.040447</td>
+                <td>-0.025885</td>
+                <td>-0.015948</td>
+                <td>0.068450</td>
+                <td>1.000000</td>
+                <td>-0.020571</td>
+            </tr>
+            <tr>
+                <td><strong>Result</strong></td>
+                <td>0.253169</td>
+                <td>-0.796261</td>
+                <td>-0.028678</td>
+                <td>0.048067</td>
+                <td>-0.020571</td>
+                <td>1.000000</td>
+            </tr>
+        </table>
+        <p><strong>Key Insights:</strong></p>
+        <ul>
+            <li>Hemoglobin has a strong negative correlation (-0.796) with anemia (Result), indicating lower hemoglobin levels are associated with anemia.</li>
+            <li>Gender has a moderate positive correlation (0.253) with anemia, suggesting a potential gender influence.</li>
+            <li>Other parameters (MCH, MCHC, MCV) show weak correlations with anemia.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Decision Tree Visualization</h2>
+        <p>The project uses a Random Forest model to predict anemia. Below is a sample visualization of the first three decision trees (placeholder image):</p>
+        <img src="https://via.placeholder.com/800x400.png?text=Decision+Tree+Visualization" alt="Decision Tree Visualization">
+        <p><em>Note:</em> The actual decision tree visualization requires the trained model data, which is not fully provided here. The image above is a placeholder.</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Anemia Prediction Project | Created on March 11, 2025</p>
+    </footer>
+</body>
+</html>
